@@ -17,12 +17,12 @@ public class MinecraftTransformer extends MiniTransformer {
     // things to provide a semi-version-agnostic example.
 
     @Patch.Method("<init>(Ljava/awt/Canvas;Lcom/mojang/minecraft/MinecraftApplet;IIZ)V")
-    public void patchClinit(PatchContext ctx) {
+    public void patchInit(PatchContext ctx) {
         // <init> has 2 returns, let's apply before the other one too
         ctx.search(RETURN()).jumpBefore();
 
         ctx.add(
-            INVOKESTATIC("com/kneelawk/nilclassic/premain/MinecraftTransformer$Hooks", "onClinit", "()V")
+            INVOKESTATIC("com/kneelawk/nilclassic/premain/MinecraftTransformer$Hooks", "onInit", "()V")
         );
         ctx.addFireEntrypoint("init-client");
 
@@ -30,14 +30,14 @@ public class MinecraftTransformer extends MiniTransformer {
         ctx.jumpToLastReturn();
 
         ctx.add(
-            INVOKESTATIC("com/kneelawk/nilclassic/premain/MinecraftTransformer$Hooks", "onClinit", "()V")
+            INVOKESTATIC("com/kneelawk/nilclassic/premain/MinecraftTransformer$Hooks", "onInit", "()V")
         );
         ctx.addFireEntrypoint("init-client");
     }
 
     public static class Hooks {
 
-        public static void onClinit() {
+        public static void onInit() {
             NilClassicLog.log.info("This message is printed by an example patch!");
         }
 
