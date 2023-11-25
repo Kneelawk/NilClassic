@@ -9,6 +9,4 @@
 entrypoints {
     /* premain is the only entrypoint defined by NilLoader itself. */
     premain: "com.kneelawk.nilclassic.premain.NilClassicPremain";
-
-    init-client: "com.kneelawk.nilclassic.NilClassicMain";
 }

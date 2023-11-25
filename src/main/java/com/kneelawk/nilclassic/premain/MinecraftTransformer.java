@@ -4,6 +4,8 @@ import nilloader.api.lib.mini.MiniTransformer;
 import nilloader.api.lib.mini.PatchContext;
 import nilloader.api.lib.mini.annotation.Patch;
 
+import com.kneelawk.nilclassic.NilClassicMain;
+
 @Patch.Class("com.mojang.minecraft.Minecraft")
 public class MinecraftTransformer extends MiniTransformer {
 
@@ -24,7 +26,6 @@ public class MinecraftTransformer extends MiniTransformer {
         ctx.add(
             INVOKESTATIC("com/kneelawk/nilclassic/premain/MinecraftTransformer$Hooks", "onInit", "()V")
         );
-        ctx.addFireEntrypoint("init-client");
 
         // Equivalent to "TAIL" in Mixin
         ctx.jumpToLastReturn();
@@ -32,15 +33,13 @@ public class MinecraftTransformer extends MiniTransformer {
         ctx.add(
             INVOKESTATIC("com/kneelawk/nilclassic/premain/MinecraftTransformer$Hooks", "onInit", "()V")
         );
-        ctx.addFireEntrypoint("init-client");
     }
 
     public static class Hooks {
-
         public static void onInit() {
-            NilClassicLog.log.info("This message is printed by an example patch!");
+            // Invoke our code that depends on Minecraft classes
+            NilClassicMain.init();
         }
-
     }
 
 }
